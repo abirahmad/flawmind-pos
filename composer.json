@@ -10,7 +10,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "darkaonline/l5-swagger": "*",
         "laravel/framework": "^12.0",
+        "laravel/passport": "*",
         "laravel/tinker": "^2.10.1",
         "nwidart/laravel-modules": "^12.0"
     },
@@ -28,7 +30,9 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\": "Modules/"
+            "Modules\\Auth\\": "Modules/Auth/app/",
+            "Modules\\Auth\\Database\\Seeders\\": "Modules/Auth/database/seeders/",
+            "Modules\\Auth\\Database\\Factories\\": "Modules/Auth/database/factories/"
         }
     },
     "autoload-dev": {

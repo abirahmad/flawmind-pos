@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
-            $table->unsignedInteger('id')->unsigned();
-            $table->unsignedInteger('client_id')->unsigned();
-            $table->timestamp('created_at')->nullable()->default(null);
-            $table->timestamp('updated_at')->nullable()->default(null);
-        });
+        if (!Schema::hasTable('oauth_personal_access_clients')) {
+            Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->unsignedBigInteger('client_id');
+                $table->timestamp('created_at')->nullable()->default(null);
+                $table->timestamp('updated_at')->nullable()->default(null);
+            });
+        }
     }
 
     /**

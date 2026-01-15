@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oauth_access_tokens', function (Blueprint $table) {
-            $table->string('id', 100);
-            $table->bigInteger('user_id')->nullable()->default(null);
-            $table->unsignedInteger('client_id')->unsigned();
-            $table->string('name', 191)->nullable()->default(null);
-            $table->text('scopes')->nullable()->default(null);
-            $table->boolean('revoked');
-            $table->timestamp('created_at')->nullable()->default(null);
-            $table->timestamp('updated_at')->nullable()->default(null);
-            $table->dateTime('expires_at')->nullable()->default(null);
-        });
+        if (!Schema::hasTable('oauth_access_tokens')) {
+            Schema::create('oauth_access_tokens', function (Blueprint $table) {
+                $table->string('id', 100)->primary();
+                $table->bigInteger('user_id')->nullable()->default(null)->index();
+                $table->unsignedInteger('client_id')->unsigned();
+                $table->string('name', 191)->nullable()->default(null);
+                $table->text('scopes')->nullable()->default(null);
+                $table->boolean('revoked');
+                $table->timestamp('created_at')->nullable()->default(null);
+                $table->timestamp('updated_at')->nullable()->default(null);
+                $table->dateTime('expires_at')->nullable()->default(null);
+            });
+        }
     }
 
     /**

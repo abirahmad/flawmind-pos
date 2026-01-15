@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oauth_auth_codes', function (Blueprint $table) {
-            $table->string('id', 100);
-            $table->bigInteger('user_id');
-            $table->unsignedInteger('client_id')->unsigned();
-            $table->text('scopes')->nullable()->default(null);
-            $table->boolean('revoked');
-            $table->dateTime('expires_at')->nullable()->default(null);
-        });
+        if (!Schema::hasTable('oauth_auth_codes')) {
+            Schema::create('oauth_auth_codes', function (Blueprint $table) {
+                $table->string('id', 100)->primary();
+                $table->bigInteger('user_id')->index();
+                $table->unsignedInteger('client_id')->unsigned();
+                $table->text('scopes')->nullable()->default(null);
+                $table->boolean('revoked');
+                $table->dateTime('expires_at')->nullable()->default(null);
+            });
+        }
     }
 
     /**
