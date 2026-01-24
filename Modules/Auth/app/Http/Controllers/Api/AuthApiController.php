@@ -25,8 +25,9 @@ class AuthApiController extends Controller
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ["first_name", "email", "password", "password_confirmation"],
+                required: ["business_id", "first_name", "email", "password", "password_confirmation"],
                 properties: [
+                    new OA\Property(property: "business_id", type: "integer", example: 1),
                     new OA\Property(property: "first_name", type: "string", example: "John"),
                     new OA\Property(property: "last_name", type: "string", example: "Doe"),
                     new OA\Property(property: "username", type: "string", example: "johndoe"),
@@ -71,6 +72,7 @@ class AuthApiController extends Controller
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
+            'business_id' => 'required|integer|exists:business,id',
             'first_name' => 'required|string|max:191',
             'last_name' => 'nullable|string|max:191',
             'username' => 'nullable|string|max:191|unique:users,username',
@@ -79,6 +81,7 @@ class AuthApiController extends Controller
         ]);
 
         $user = User::create([
+            'business_id' => $validated['business_id'],
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'] ?? null,
             'username' => $validated['username'] ?? null,
@@ -114,8 +117,9 @@ class AuthApiController extends Controller
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ["email", "password"],
+                required: ["business_id", "email", "password"],
                 properties: [
+                    new OA\Property(property: "business_id", type: "integer", example: 1),
                     new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
                     new OA\Property(property: "password", type: "string", format: "password", example: "password123"),
                 ]
@@ -166,11 +170,14 @@ class AuthApiController extends Controller
     public function login(Request $request): JsonResponse
     {
         $request->validate([
+            'business_id' => 'required|integer|exists:business,id',
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+            ->where('business_id', $request->business_id)
+            ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([

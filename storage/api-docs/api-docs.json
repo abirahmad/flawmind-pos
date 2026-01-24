@@ -30,12 +30,17 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "business_id",
                                     "first_name",
                                     "email",
                                     "password",
                                     "password_confirmation"
                                 ],
                                 "properties": {
+                                    "business_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "first_name": {
                                         "type": "string",
                                         "example": "John"
@@ -140,10 +145,15 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "business_id",
                                     "email",
                                     "password"
                                 ],
                                 "properties": {
+                                    "business_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
