@@ -24,14 +24,19 @@ Route::prefix('v1/sales')->middleware('auth:api')->group(function () {
     Route::prefix('sells')->group(function () {
         Route::get('/', [SellController::class, 'index'])->name('sales.sells.index');
         Route::post('/', [SellController::class, 'store'])->name('sales.sells.store');
+
+        // Specific routes must come BEFORE the {id} wildcard route
+        Route::get('/drafts', [SellController::class, 'drafts'])->name('sales.sells.drafts');
+        Route::get('/quotations', [SellController::class, 'quotations'])->name('sales.sells.quotations');
+        Route::post('/quotation', [SellController::class, 'createQuotation'])->name('sales.sells.quotation');
+        Route::post('/draft', [SellController::class, 'createDraft'])->name('sales.sells.draft');
+
+        // Wildcard routes
         Route::get('/{id}', [SellController::class, 'show'])->name('sales.sells.show');
         Route::put('/{id}', [SellController::class, 'update'])->name('sales.sells.update');
         Route::delete('/{id}', [SellController::class, 'destroy'])->name('sales.sells.destroy');
-
-        // Additional sell operations
         Route::post('/{id}/finalize', [SellController::class, 'finalize'])->name('sales.sells.finalize');
-        Route::post('/quotation', [SellController::class, 'createQuotation'])->name('sales.sells.quotation');
-        Route::post('/draft', [SellController::class, 'createDraft'])->name('sales.sells.draft');
+        Route::post('/{id}/convert-to-invoice', [SellController::class, 'convertToInvoice'])->name('sales.sells.convert-to-invoice');
     });
 
     /*

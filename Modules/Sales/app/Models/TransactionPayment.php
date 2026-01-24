@@ -13,6 +13,16 @@ class TransactionPayment extends Model
 
     protected $guarded = ['id'];
 
+    /**
+     * Default attribute values for required fields without DB defaults.
+     */
+    protected $attributes = [
+        'is_return' => false,
+        'paid_through_link' => false,
+        'is_advance' => false,
+        'amount' => 0,
+    ];
+
     protected $casts = [
         'amount' => 'decimal:4',
         'paid_on' => 'datetime',

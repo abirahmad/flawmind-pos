@@ -12,6 +12,21 @@ class TransactionSellLine extends Model
 
     protected $guarded = ['id'];
 
+    /**
+     * Default attribute values for required fields without DB defaults.
+     */
+    protected $attributes = [
+        'quantity' => 0,
+        'mfg_waste_percent' => 0,
+        'secondary_unit_quantity' => 0,
+        'quantity_returned' => 0,
+        'unit_price_before_discount' => 0,
+        'line_discount_amount' => 0,
+        'item_tax' => 0,
+        'so_quantity_invoiced' => 0,
+        'children_type' => '',
+    ];
+
     protected $casts = [
         'quantity' => 'decimal:4',
         'quantity_returned' => 'decimal:4',

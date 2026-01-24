@@ -14,6 +14,38 @@ class Transaction extends Model
 
     protected $guarded = ['id'];
 
+    /**
+     * Default attribute values for required fields without DB defaults.
+     */
+    protected $attributes = [
+        'is_kitchen_order' => false,
+        'is_quotation' => false,
+        'is_direct_sale' => false,
+        'is_suspend' => false,
+        'is_export' => false,
+        'is_created_from_api' => false,
+        'is_recurring' => false,
+        'mfg_is_final' => false,
+        'crm_is_order_request' => false,
+        'total_before_tax' => 0,
+        'tax_amount' => 0,
+        'discount_amount' => 0,
+        'final_total' => 0,
+        'shipping_charges' => 0,
+        'round_off_amount' => 0,
+        'exchange_rate' => 1,
+        'rp_redeemed' => 0,
+        'rp_redeemed_amount' => 0,
+        'rp_earned' => 0,
+        'additional_expense_value_1' => 0,
+        'additional_expense_value_2' => 0,
+        'additional_expense_value_3' => 0,
+        'additional_expense_value_4' => 0,
+        'mfg_production_cost' => 0,
+        'essentials_duration' => 0,
+        'essentials_amount_per_unit_duration' => 0,
+    ];
+
     protected $casts = [
         'transaction_date' => 'datetime',
         'delivery_date' => 'datetime',
