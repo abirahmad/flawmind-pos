@@ -145,15 +145,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "business_id",
                                     "email",
                                     "password"
                                 ],
                                 "properties": {
-                                    "business_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
@@ -465,6 +460,2186 @@
                                 }
                             }
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/brands": {
+            "get": {
+                "tags": [
+                    "Procurement - Brands"
+                ],
+                "summary": "List brands",
+                "description": "Get paginated list of brands for the business",
+                "operationId": "9869b1b9a6ad12d03944c9af764c7c88",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brands retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Brands"
+                ],
+                "summary": "Create a brand",
+                "description": "Create a new product brand",
+                "operationId": "dbc608c2ef6f31441802a3f2adcc41ac",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "BrandX"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Brand created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/brands/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Brands"
+                ],
+                "summary": "Get brand details",
+                "description": "Get details of a specific brand",
+                "operationId": "b8ae222d4482ac98fae3cc34920c578c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brand retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Brands"
+                ],
+                "summary": "Update a brand",
+                "description": "Update an existing brand",
+                "operationId": "5702e4cb2d2b78a2fa3a9db8b8b9a866",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Brand updated successfully"
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Brands"
+                ],
+                "summary": "Delete a brand",
+                "description": "Soft-delete a brand",
+                "operationId": "cc461f1ca0778aff90e5ae948db6685f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brand deleted successfully"
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/categories": {
+            "get": {
+                "tags": [
+                    "Procurement - Categories"
+                ],
+                "summary": "List product categories",
+                "description": "Get paginated list of main product categories with their sub-categories",
+                "operationId": "9c7b4f31d5c53c98c5defb1a69303ba7",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categories retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Categories"
+                ],
+                "summary": "Create a category",
+                "description": "Create a product category or sub-category. Set parent_id=0 or omit for a main category.",
+                "operationId": "9b70554b517dd2a6a21ea1d6e8e29e6a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Electronics"
+                                    },
+                                    "short_code": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "parent_id": {
+                                        "description": "0 = main category, else sub-category of that parent",
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "category_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "product",
+                                            "expense"
+                                        ],
+                                        "example": "product"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Categories"
+                ],
+                "summary": "Get category details",
+                "description": "Get details of a specific category with its sub-categories",
+                "operationId": "05b6edabf1eb181cea61e62f9b1bbff8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Categories"
+                ],
+                "summary": "Update a category",
+                "description": "Update an existing product category",
+                "operationId": "abed479af2746bcd4bd9d48e1bb8eee9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Categories"
+                ],
+                "summary": "Delete a category",
+                "description": "Soft-delete a product category",
+                "operationId": "81fbe2575c6073f7aba9b4981b997992",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products": {
+            "get": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "List products",
+                "description": "Get paginated list of products with optional filters",
+                "operationId": "039c868665423165b323dbd084607479",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "single",
+                                "variable",
+                                "modifier",
+                                "combo"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "brand_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "is_inactive",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "created_at"
+                        }
+                    },
+                    {
+                        "name": "sort_order",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Create a new product",
+                "description": "Create a new product (single, variable, modifier, or combo)",
+                "operationId": "f8e17bc253febb65ce00fb8dfb2bd8f7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "sku",
+                                    "unit_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Widget Pro"
+                                    },
+                                    "sku": {
+                                        "type": "string",
+                                        "example": "WGT-001"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "single",
+                                            "variable",
+                                            "modifier",
+                                            "combo"
+                                        ]
+                                    },
+                                    "unit_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "secondary_unit_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "brand_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "sub_category_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "tax": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "tax_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "inclusive",
+                                            "exclusive"
+                                        ],
+                                        "example": "exclusive"
+                                    },
+                                    "enable_stock": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "alert_quantity": {
+                                        "type": "number",
+                                        "example": 5
+                                    },
+                                    "barcode_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "C39",
+                                            "C128",
+                                            "EAN-13",
+                                            "EAN-8",
+                                            "UPC-A",
+                                            "UPC-E",
+                                            "ITF-14"
+                                        ]
+                                    },
+                                    "warranty_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "weight": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "product_description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "is_inactive": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "not_for_selling": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "expiry_period": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "expiry_period_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "days",
+                                            "months"
+                                        ],
+                                        "nullable": true
+                                    },
+                                    "enable_sr_no": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "location_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "product_custom_field1": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "variations": {
+                                        "description": "For single/modifier products",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "sub_sku": {
+                                                    "type": "string"
+                                                },
+                                                "default_purchase_price": {
+                                                    "type": "number"
+                                                },
+                                                "dpp_inc_tax": {
+                                                    "type": "number"
+                                                },
+                                                "profit_percent": {
+                                                    "type": "number"
+                                                },
+                                                "default_sell_price": {
+                                                    "type": "number"
+                                                },
+                                                "sell_price_inc_tax": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "product_variations": {
+                                        "description": "For variable products",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "variation_template_id": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "variations": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "variation_value_id": {
+                                                                "type": "integer",
+                                                                "nullable": true
+                                                            },
+                                                            "sub_sku": {
+                                                                "type": "string"
+                                                            },
+                                                            "default_purchase_price": {
+                                                                "type": "number"
+                                                            },
+                                                            "sell_price_inc_tax": {
+                                                                "type": "number"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Get product details",
+                "description": "Get full details of a product including variations, stock, and price groups",
+                "operationId": "98f27cdc23aa00157eba5196f2f7e1fe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Update a product",
+                "description": "Update an existing product's core fields",
+                "operationId": "83c2117ac8d6fafec67bb30fd64f702e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Delete a product",
+                "description": "Soft-delete a product and its variations",
+                "operationId": "9b8d963f0a63baa238a3e43324981ea6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/{id}/stock": {
+            "get": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Get product stock",
+                "description": "Get stock quantities per location for all variations of a product",
+                "operationId": "e562481063271496cc09a52bb05cab28",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Stock retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/{id}/variations": {
+            "get": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Get product variations",
+                "description": "Get all variations for a specific product",
+                "operationId": "57679c820c878628454ecff61af72137",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Variations retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/{id}/group-prices": {
+            "get": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Get selling price group prices",
+                "description": "Get all price group overrides for a product",
+                "operationId": "20393f97b6e54319c0c5b14501cc3554",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group prices retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Update selling price group prices",
+                "description": "Save or update price group prices for a product's variations",
+                "operationId": "31695957bb43eca2a9ed1677425a1bd9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "group_prices": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "variation_id": {
+                                                    "type": "integer"
+                                                },
+                                                "price_group_id": {
+                                                    "type": "integer"
+                                                },
+                                                "price_inc_tax": {
+                                                    "type": "number"
+                                                },
+                                                "price_type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "fixed",
+                                                        "percentage"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Group prices updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/mass-deactivate": {
+            "post": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Bulk deactivate products",
+                "description": "Deactivate multiple products at once",
+                "operationId": "f5d012882f18f8850b3f5eaaf8ea1203",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Products deactivated"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/mass-delete": {
+            "post": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Bulk delete products",
+                "description": "Delete multiple products at once",
+                "operationId": "4ee7a437e34dd871bf49abac44f47087",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Products deleted"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/{id}/activate": {
+            "patch": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Activate a product",
+                "description": "Set a product as active (is_inactive = 0)",
+                "operationId": "92111a9978fbec6107dc470ad7cc3531",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product activated"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/products/check-sku": {
+            "post": {
+                "tags": [
+                    "Procurement - Products"
+                ],
+                "summary": "Validate SKU uniqueness",
+                "description": "Check whether a SKU is available within the business",
+                "operationId": "ba1fda56f375265d008c4acc83523c69",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "sku": {
+                                        "type": "string"
+                                    },
+                                    "product_id": {
+                                        "description": "Exclude this product ID when editing",
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "SKU check result"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/selling-price-groups": {
+            "get": {
+                "tags": [
+                    "Procurement - Selling Price Groups"
+                ],
+                "summary": "List selling price groups",
+                "description": "Get paginated list of selling price groups for the business",
+                "operationId": "bbcc63f9a560593fd7d3168c87562a67",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price groups retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Selling Price Groups"
+                ],
+                "summary": "Create a selling price group",
+                "description": "Create a new customer price tier (e.g. Wholesale, VIP)",
+                "operationId": "d1b52c9ca1872d0f7a926749ea6810a2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Wholesale"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Price group created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/selling-price-groups/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Selling Price Groups"
+                ],
+                "summary": "Get price group details",
+                "description": "Get details of a specific selling price group",
+                "operationId": "5dd264eee1a8418018baca166c3e1dcc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price group retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Price group not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Selling Price Groups"
+                ],
+                "summary": "Update a selling price group",
+                "description": "Update an existing selling price group",
+                "operationId": "5e34b5b3d41e01312e5c6d2e9cca0eac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price group updated successfully"
+                    },
+                    "404": {
+                        "description": "Price group not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Selling Price Groups"
+                ],
+                "summary": "Delete a selling price group",
+                "description": "Soft-delete a selling price group",
+                "operationId": "86bf2b4eb84c645a077889ac5ccec6ec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Price group deleted successfully"
+                    },
+                    "404": {
+                        "description": "Price group not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/selling-price-groups/{id}/toggle-active": {
+            "patch": {
+                "tags": [
+                    "Procurement - Selling Price Groups"
+                ],
+                "summary": "Toggle active state",
+                "description": "Toggle the active/inactive state of a selling price group",
+                "operationId": "594de65f063bda4e8c702684c352ce6b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Active state toggled"
+                    },
+                    "404": {
+                        "description": "Price group not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/units": {
+            "get": {
+                "tags": [
+                    "Procurement - Units"
+                ],
+                "summary": "List units",
+                "description": "Get paginated list of units of measurement",
+                "operationId": "635597864e6ad42ba7f01d467a3ac48b",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Units retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Units"
+                ],
+                "summary": "Create a unit",
+                "description": "Create a new unit of measurement. Optionally link to a base unit for sub-unit conversion.",
+                "operationId": "6e19576dcea8df81ade8e0208bba738e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "actual_name",
+                                    "short_name"
+                                ],
+                                "properties": {
+                                    "actual_name": {
+                                        "type": "string",
+                                        "example": "Kilogram"
+                                    },
+                                    "short_name": {
+                                        "type": "string",
+                                        "example": "kg"
+                                    },
+                                    "allow_decimal": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "base_unit_id": {
+                                        "description": "Parent unit ID for sub-unit",
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "base_unit_multiplier": {
+                                        "description": "Conversion factor (e.g. 0.001 for gram→kg)",
+                                        "type": "number",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Unit created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/units/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Units"
+                ],
+                "summary": "Get unit details",
+                "description": "Get details of a specific unit including sub-units",
+                "operationId": "ce482f877d056a10b3bc04c3190614cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unit retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Units"
+                ],
+                "summary": "Update a unit",
+                "description": "Update an existing unit of measurement",
+                "operationId": "157ba06f02d3529c9bf3d18f944a49ae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unit updated successfully"
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Units"
+                ],
+                "summary": "Delete a unit",
+                "description": "Soft-delete a unit of measurement",
+                "operationId": "e5170830ad9cd17d6339bde9a6468e62",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unit deleted successfully"
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/variation-templates": {
+            "get": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "List variation templates",
+                "description": "Get paginated list of variation templates with their values",
+                "operationId": "fba55c3908bc7b225251451e8f63907d",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Templates retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "Create a variation template",
+                "description": "Create a new reusable variation template with values",
+                "operationId": "29681929b7ac487941f1d6651203e05a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Color"
+                                    },
+                                    "values": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Red"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Template created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/variation-templates/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "Get variation template",
+                "description": "Get a specific variation template with all its values",
+                "operationId": "cd81fe906a8f9d9c1f4a1f91b6653220",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Template not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "Update a variation template",
+                "description": "Update a variation template and sync its values",
+                "operationId": "d60efaddcbfd57dbf682cb5efd538a84",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "values": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Existing value ID (omit for new)",
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Template updated successfully"
+                    },
+                    "404": {
+                        "description": "Template not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "Delete a variation template",
+                "description": "Delete a variation template and all its values",
+                "operationId": "4e6cf2a11cc4d79b6651fc4ad85fb576",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Template deleted successfully"
+                    },
+                    "404": {
+                        "description": "Template not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/variation-templates/{id}/values": {
+            "post": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "Add value to template",
+                "description": "Add a new value to an existing variation template",
+                "operationId": "83f4e9cc55e25d90b2b744a491892b4b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Blue"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Value added"
+                    },
+                    "404": {
+                        "description": "Template not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/variation-templates/{id}/values/{valueId}": {
+            "delete": {
+                "tags": [
+                    "Procurement - Variation Templates"
+                ],
+                "summary": "Remove value from template",
+                "description": "Delete a specific value from a variation template",
+                "operationId": "f75a1534385ff4dd96e8441d7a4b1fd0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "valueId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Value removed"
+                    },
+                    "404": {
+                        "description": "Template not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/warranties": {
+            "get": {
+                "tags": [
+                    "Procurement - Warranties"
+                ],
+                "summary": "List warranties",
+                "description": "Get paginated list of warranties for the business",
+                "operationId": "45837cf944bd6807a19d19ad9f6fc59b",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warranties retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Procurement - Warranties"
+                ],
+                "summary": "Create a warranty",
+                "description": "Create a new warranty definition",
+                "operationId": "3f7401fefff6d9263a880b176a20e530",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "duration",
+                                    "duration_type"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Standard Warranty"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "duration": {
+                                        "type": "integer",
+                                        "example": 12
+                                    },
+                                    "duration_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "days",
+                                            "months",
+                                            "years"
+                                        ],
+                                        "example": "months"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Warranty created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/procurement/warranties/{id}": {
+            "get": {
+                "tags": [
+                    "Procurement - Warranties"
+                ],
+                "summary": "Get warranty details",
+                "description": "Get details of a specific warranty",
+                "operationId": "ccb19e94185c10b2fd5792894763c849",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warranty retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Warranty not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Procurement - Warranties"
+                ],
+                "summary": "Update a warranty",
+                "description": "Update an existing warranty",
+                "operationId": "392e8b05f8cb426c3159c7e881488c59",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warranty updated successfully"
+                    },
+                    "404": {
+                        "description": "Warranty not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Procurement - Warranties"
+                ],
+                "summary": "Delete a warranty",
+                "description": "Delete a warranty definition",
+                "operationId": "8a034f5d364c6716e82fa0583e6a62c3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warranty deleted successfully"
+                    },
+                    "404": {
+                        "description": "Warranty not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     }
                 },
                 "security": [
@@ -1765,6 +3940,34 @@
         {
             "name": "Authentication",
             "description": "API endpoints for user authentication"
+        },
+        {
+            "name": "Procurement - Brands",
+            "description": "Brand management API endpoints"
+        },
+        {
+            "name": "Procurement - Categories",
+            "description": "Product category and sub-category management"
+        },
+        {
+            "name": "Procurement - Products",
+            "description": "Product management API endpoints"
+        },
+        {
+            "name": "Procurement - Selling Price Groups",
+            "description": "Customer price tier management (Wholesale, Retail, VIP, etc.)"
+        },
+        {
+            "name": "Procurement - Units",
+            "description": "Unit of measurement management API endpoints"
+        },
+        {
+            "name": "Procurement - Variation Templates",
+            "description": "Reusable variation template management (e.g. Color, Size)"
+        },
+        {
+            "name": "Procurement - Warranties",
+            "description": "Warranty management API endpoints"
         },
         {
             "name": "Contacts",

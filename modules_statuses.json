@@ -1,4 +1,5 @@
 {
     "Auth": true,
-    "Sales": true
+    "Sales": true,
+    "Procurement": true
 }

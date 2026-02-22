@@ -1,0 +1,11 @@
+{
+    "name": "Procurement",
+    "alias": "procurement",
+    "description": "Product management module for ERP - handles products, variations, brands, units, categories, warranties, and selling price groups",
+    "keywords": ["procurement", "products", "inventory"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Procurement\\Providers\\ProcurementServiceProvider"
+    ],
+    "files": []
+}
