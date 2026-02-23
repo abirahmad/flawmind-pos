@@ -1,0 +1,92 @@
+<?php
+
+namespace Modules\Business\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class BusinessResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'                                 => $this->id,
+            'name'                               => $this->name,
+            'currency_id'                        => $this->currency_id,
+            'start_date'                         => $this->start_date?->toDateString(),
+            'tax_number_1'                       => $this->tax_number_1,
+            'tax_number_2'                       => $this->tax_number_2,
+            'tax_label_1'                        => $this->tax_label_1,
+            'tax_label_2'                        => $this->tax_label_2,
+            'code_label_1'                       => $this->code_label_1,
+            'code_label_2'                       => $this->code_label_2,
+            'code_1'                             => $this->code_1,
+            'code_2'                             => $this->code_2,
+            'default_sales_tax'                  => $this->default_sales_tax,
+            'default_profit_percent'             => $this->default_profit_percent,
+            'owner_id'                           => $this->owner_id,
+            'time_zone'                          => $this->time_zone,
+            'fy_start_month'                     => $this->fy_start_month,
+            'accounting_method'                  => $this->accounting_method,
+            'default_sales_discount'             => $this->default_sales_discount,
+            'sell_price_tax'                     => $this->sell_price_tax,
+            'logo'                               => $this->logo ? asset('storage/' . $this->logo) : null,
+            'sku_prefix'                         => $this->sku_prefix,
+            'enable_product_expiry'              => $this->enable_product_expiry,
+            'expiry_type'                        => $this->expiry_type,
+            'on_product_expiry'                  => $this->on_product_expiry,
+            'stop_selling_before'                => $this->stop_selling_before,
+            'enable_tooltip'                     => $this->enable_tooltip,
+            'purchase_in_diff_currency'          => $this->purchase_in_diff_currency,
+            'purchase_currency_id'               => $this->purchase_currency_id,
+            'p_exchange_rate'                    => $this->p_exchange_rate,
+            'transaction_edit_days'              => $this->transaction_edit_days,
+            'stock_expiry_alert_days'            => $this->stock_expiry_alert_days,
+            'keyboard_shortcuts'                 => $this->keyboard_shortcuts,
+            'pos_settings'                       => $this->pos_settings,
+            'weighing_scale_setting'             => $this->weighing_scale_setting,
+            'enable_brand'                       => $this->enable_brand,
+            'enable_category'                    => $this->enable_category,
+            'enable_sub_category'                => $this->enable_sub_category,
+            'enable_price_tax'                   => $this->enable_price_tax,
+            'enable_purchase_status'             => $this->enable_purchase_status,
+            'enable_lot_number'                  => $this->enable_lot_number,
+            'default_unit'                       => $this->default_unit,
+            'enable_sub_units'                   => $this->enable_sub_units,
+            'enable_racks'                       => $this->enable_racks,
+            'enable_row'                         => $this->enable_row,
+            'enable_position'                    => $this->enable_position,
+            'enable_editing_product_from_purchase' => $this->enable_editing_product_from_purchase,
+            'sales_cmsn_agnt'                    => $this->sales_cmsn_agnt,
+            'item_addition_method'               => $this->item_addition_method,
+            'enable_inline_tax'                  => $this->enable_inline_tax,
+            'currency_symbol_placement'          => $this->currency_symbol_placement,
+            'enabled_modules'                    => $this->enabled_modules,
+            'date_format'                        => $this->date_format,
+            'time_format'                        => $this->time_format,
+            'currency_precision'                 => $this->currency_precision,
+            'quantity_precision'                 => $this->quantity_precision,
+            'ref_no_prefixes'                    => $this->ref_no_prefixes,
+            'theme_color'                        => $this->theme_color,
+            'enable_rp'                          => $this->enable_rp,
+            'rp_name'                            => $this->rp_name,
+            'amount_for_unit_rp'                 => $this->amount_for_unit_rp,
+            'min_order_total_for_rp'             => $this->min_order_total_for_rp,
+            'max_rp_per_order'                   => $this->max_rp_per_order,
+            'redeem_amount_per_unit_rp'          => $this->redeem_amount_per_unit_rp,
+            'min_order_total_for_redeem'         => $this->min_order_total_for_redeem,
+            'min_redeem_point'                   => $this->min_redeem_point,
+            'max_redeem_point'                   => $this->max_redeem_point,
+            'rp_expiry_period'                   => $this->rp_expiry_period,
+            'rp_expiry_type'                     => $this->rp_expiry_type,
+            'custom_labels'                      => $this->custom_labels,
+            'common_settings'                    => $this->common_settings,
+            'is_active'                          => $this->is_active,
+            'created_at'                         => $this->created_at?->toISOString(),
+            'updated_at'                         => $this->updated_at?->toISOString(),
+
+            // Relationships (loaded when requested)
+            'locations'   => BusinessLocationResource::collection($this->whenLoaded('locations')),
+        ];
+    }
+}

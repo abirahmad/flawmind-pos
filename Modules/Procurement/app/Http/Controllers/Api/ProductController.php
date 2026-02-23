@@ -78,10 +78,11 @@ class ProductController extends Controller
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ["name", "type", "sku", "unit_id"],
+                required: ["name", "type", "unit_id"],
                 properties: [
                     new OA\Property(property: "name",               type: "string",  example: "Widget Pro"),
-                    new OA\Property(property: "sku",                type: "string",  example: "WGT-001"),
+                    new OA\Property(property: "sku",                type: "string",  nullable: true, description: "Leave blank to auto-generate (e.g. P0001)", example: "WGT-001"),
+                    new OA\Property(property: "sku_type",           type: "string",  enum: ["with_variation","with_out_variation"], description: "Sub-SKU strategy for variable products (default: with_out_variation)"),
                     new OA\Property(property: "type",               type: "string",  enum: ["single","variable","modifier","combo"]),
                     new OA\Property(property: "unit_id",            type: "integer", example: 1),
                     new OA\Property(property: "secondary_unit_id",  type: "integer", nullable: true),
@@ -104,12 +105,25 @@ class ProductController extends Controller
                     new OA\Property(property: "location_ids",       type: "array",   items: new OA\Items(type: "integer")),
                     new OA\Property(property: "product_custom_field1", type: "string", nullable: true),
                     new OA\Property(
+                        property: "product_racks",
+                        description: "Warehouse rack positions per location",
+                        type: "array",
+                        items: new OA\Items(
+                            properties: [
+                                new OA\Property(property: "location_id", type: "integer"),
+                                new OA\Property(property: "rack",        type: "string", nullable: true),
+                                new OA\Property(property: "row",         type: "string", nullable: true),
+                                new OA\Property(property: "position",    type: "string", nullable: true),
+                            ]
+                        )
+                    ),
+                    new OA\Property(
                         property: "variations",
                         description: "For single/modifier products",
                         type: "array",
                         items: new OA\Items(
                             properties: [
-                                new OA\Property(property: "sub_sku",                type: "string"),
+                                new OA\Property(property: "sub_sku",                type: "string", nullable: true),
                                 new OA\Property(property: "default_purchase_price", type: "number"),
                                 new OA\Property(property: "dpp_inc_tax",            type: "number"),
                                 new OA\Property(property: "profit_percent",         type: "number"),
@@ -130,14 +144,34 @@ class ProductController extends Controller
                                     properties: [
                                         new OA\Property(property: "name",                   type: "string"),
                                         new OA\Property(property: "variation_value_id",     type: "integer", nullable: true),
-                                        new OA\Property(property: "sub_sku",                type: "string"),
+                                        new OA\Property(property: "sub_sku",                type: "string",  nullable: true),
                                         new OA\Property(property: "default_purchase_price", type: "number"),
+                                        new OA\Property(property: "dpp_inc_tax",            type: "number"),
+                                        new OA\Property(property: "profit_percent",         type: "number"),
+                                        new OA\Property(property: "default_sell_price",     type: "number"),
                                         new OA\Property(property: "sell_price_inc_tax",     type: "number"),
+                                        new OA\Property(property: "is_hidden",              type: "boolean"),
                                     ]
                                 )),
                             ]
                         )
                     ),
+                    new OA\Property(
+                        property: "combo_variations",
+                        description: "For combo products — the component variations",
+                        type: "array",
+                        items: new OA\Items(
+                            properties: [
+                                new OA\Property(property: "variation_id", type: "integer"),
+                                new OA\Property(property: "quantity",     type: "number"),
+                                new OA\Property(property: "unit_id",      type: "integer", nullable: true),
+                            ]
+                        )
+                    ),
+                    new OA\Property(property: "item_level_purchase_price_total", type: "number", nullable: true, description: "Combo purchase price (sum of components)"),
+                    new OA\Property(property: "purchase_price_inc_tax",          type: "number", nullable: true),
+                    new OA\Property(property: "selling_price",                   type: "number", nullable: true),
+                    new OA\Property(property: "selling_price_inc_tax",           type: "number", nullable: true),
                 ]
             )
         ),
@@ -156,8 +190,8 @@ class ProductController extends Controller
                 'created_by'  => $user->id,
             ]);
 
-            // Validate SKU uniqueness within the business
-            if (!$this->productService->isSkuUnique($data['sku'], $user->business_id)) {
+            // Validate SKU uniqueness within the business (only when SKU is explicitly provided)
+            if (!empty($data['sku']) && !$this->productService->isSkuUnique($data['sku'], $user->business_id)) {
                 return $this->error('SKU already exists in this business', 422);
             }
 

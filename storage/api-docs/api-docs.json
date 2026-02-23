@@ -469,6 +469,984 @@
                 ]
             }
         },
+        "/v1/business/register": {
+            "post": {
+                "tags": [
+                    "Business - Settings"
+                ],
+                "summary": "Register a new business",
+                "description": "Create a new business with an owner account and a first location. Returns a bearer token for immediate use. This endpoint is public and does not require authentication.",
+                "operationId": "f484d18094db18ee17f64ae9336e7f64",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "currency_id",
+                                    "time_zone",
+                                    "fy_start_month",
+                                    "accounting_method",
+                                    "first_name",
+                                    "username",
+                                    "password",
+                                    "location_name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Business name",
+                                        "type": "string",
+                                        "example": "My Business"
+                                    },
+                                    "currency_id": {
+                                        "description": "Currency ID from currencies table",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "time_zone": {
+                                        "description": "PHP timezone string",
+                                        "type": "string",
+                                        "example": "Asia/Dhaka"
+                                    },
+                                    "fy_start_month": {
+                                        "description": "Fiscal year start month (1-12)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "accounting_method": {
+                                        "type": "string",
+                                        "enum": [
+                                            "fifo",
+                                            "lifo",
+                                            "avco"
+                                        ],
+                                        "example": "fifo"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01",
+                                        "nullable": true
+                                    },
+                                    "tax_label_1": {
+                                        "type": "string",
+                                        "example": "VAT",
+                                        "nullable": true
+                                    },
+                                    "tax_number_1": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "tax_label_2": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "tax_number_2": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Mr.",
+                                        "nullable": true
+                                    },
+                                    "first_name": {
+                                        "description": "Owner first name",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Doe",
+                                        "nullable": true
+                                    },
+                                    "username": {
+                                        "description": "Owner username (min 4 chars, unique)",
+                                        "type": "string",
+                                        "example": "johndoe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com",
+                                        "nullable": true
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    },
+                                    "language": {
+                                        "type": "string",
+                                        "example": "en",
+                                        "nullable": true
+                                    },
+                                    "location_name": {
+                                        "description": "First location name",
+                                        "type": "string",
+                                        "example": "Head Office"
+                                    },
+                                    "landmark": {
+                                        "type": "string",
+                                        "example": "123 Main St",
+                                        "nullable": true
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Bangladesh",
+                                        "nullable": true
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Dhaka",
+                                        "nullable": true
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": "1000",
+                                        "nullable": true
+                                    },
+                                    "mobile": {
+                                        "type": "string",
+                                        "example": "01700000000",
+                                        "nullable": true
+                                    },
+                                    "alternate_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Business registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Business registered successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "access_token": {
+                                                    "description": "Passport bearer token — use this for all subsequent requests",
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "Bearer"
+                                                },
+                                                "user": {
+                                                    "type": "object"
+                                                },
+                                                "business": {
+                                                    "type": "object"
+                                                },
+                                                "location": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/v1/business/settings": {
+            "get": {
+                "tags": [
+                    "Business - Settings"
+                ],
+                "summary": "Get business settings",
+                "description": "Retrieve the full settings and configuration of the authenticated user's business",
+                "operationId": "4ff0dffb222619c5d7b2c0c32fdba98b",
+                "responses": {
+                    "200": {
+                        "description": "Business settings retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "currency_id": {
+                                                    "type": "integer"
+                                                },
+                                                "time_zone": {
+                                                    "type": "string"
+                                                },
+                                                "fy_start_month": {
+                                                    "type": "integer"
+                                                },
+                                                "accounting_method": {
+                                                    "type": "string"
+                                                },
+                                                "logo": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "enabled_modules": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "pos_settings": {
+                                                    "type": "object"
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Business not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Business - Settings"
+                ],
+                "summary": "Update business settings",
+                "description": "Update the settings and configuration for the authenticated user's business. All fields are optional — only send fields you want to update.",
+                "operationId": "aae29ddd02beec60382375c11faf2ffd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "My Business"
+                                    },
+                                    "currency_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "time_zone": {
+                                        "type": "string",
+                                        "example": "Asia/Dhaka"
+                                    },
+                                    "fy_start_month": {
+                                        "description": "Fiscal year start month (1-12)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "accounting_method": {
+                                        "type": "string",
+                                        "enum": [
+                                            "fifo",
+                                            "lifo",
+                                            "avco"
+                                        ]
+                                    },
+                                    "default_profit_percent": {
+                                        "type": "number",
+                                        "example": 25
+                                    },
+                                    "default_sales_discount": {
+                                        "type": "number",
+                                        "example": 0
+                                    },
+                                    "sell_price_tax": {
+                                        "type": "string",
+                                        "enum": [
+                                            "includes",
+                                            "excludes"
+                                        ]
+                                    },
+                                    "sku_prefix": {
+                                        "type": "string",
+                                        "example": "PRD"
+                                    },
+                                    "logo": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "nullable": true
+                                    },
+                                    "enable_product_expiry": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_brand": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_category": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_sub_category": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_price_tax": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_lot_number": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_racks": {
+                                        "type": "boolean"
+                                    },
+                                    "enable_rp": {
+                                        "type": "boolean"
+                                    },
+                                    "enabled_modules": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "pos_settings": {
+                                        "type": "object"
+                                    },
+                                    "email_settings": {
+                                        "type": "object"
+                                    },
+                                    "sms_settings": {
+                                        "type": "object"
+                                    },
+                                    "common_settings": {
+                                        "type": "object"
+                                    },
+                                    "ref_no_prefixes": {
+                                        "type": "object"
+                                    },
+                                    "date_format": {
+                                        "type": "string",
+                                        "example": "d/m/Y"
+                                    },
+                                    "time_format": {
+                                        "type": "string",
+                                        "enum": [
+                                            "12",
+                                            "24"
+                                        ]
+                                    },
+                                    "currency_precision": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "quantity_precision": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "theme_color": {
+                                        "type": "string",
+                                        "example": "blue"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Business settings updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "404": {
+                        "description": "Business not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/business/toggle-active": {
+            "patch": {
+                "tags": [
+                    "Business - Settings"
+                ],
+                "summary": "Toggle business active state",
+                "description": "Toggle the active/inactive state of the authenticated user's business",
+                "operationId": "4c66909f2f96f8e778ff4fc65287aff4",
+                "responses": {
+                    "200": {
+                        "description": "Business active state toggled"
+                    },
+                    "404": {
+                        "description": "Business not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/business/locations": {
+            "get": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "List business locations",
+                "description": "Get paginated list of all locations (branches/outlets) for the business",
+                "operationId": "9f9d47fed63077fa99e455b3f75d76bf",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Locations retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "location_id": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "city": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "mobile": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "Create a business location",
+                "description": "Create a new branch, outlet, or warehouse location for the business",
+                "operationId": "efaf10b44061f34534d9f9e7c13a2e83",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "location_id",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "location_id": {
+                                        "description": "Unique location identifier within business",
+                                        "type": "string",
+                                        "example": "HQ"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Head Office"
+                                    },
+                                    "landmark": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Bangladesh",
+                                        "nullable": true
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Dhaka",
+                                        "nullable": true
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "mobile": {
+                                        "type": "string",
+                                        "example": "01700000000",
+                                        "nullable": true
+                                    },
+                                    "alternate_number": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "nullable": true
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "print_receipt_on_invoice": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "receipt_printer_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "browser",
+                                            "printer"
+                                        ],
+                                        "nullable": true
+                                    },
+                                    "selling_price_group_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "custom_field1": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field2": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field3": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field4": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Location created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/business/locations/{id}": {
+            "get": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "Get location details",
+                "description": "Get details of a specific business location",
+                "operationId": "4585429cf04fc28bd454761542085c48",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "Update a business location",
+                "description": "Update an existing business location. All fields are optional.",
+                "operationId": "0dff7bf66803a32e42c7a26e315452a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "landmark": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "mobile": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "nullable": true
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field1": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field2": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field3": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "custom_field4": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Location updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "Delete a business location",
+                "description": "Soft-delete a business location",
+                "operationId": "4e1df9e99ba6417fde35d19646c80a4e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location deleted successfully"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/business/locations/{id}/toggle-active": {
+            "patch": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "Toggle location active state",
+                "description": "Activate or deactivate a business location",
+                "operationId": "64b0d1c0324bd117b57d8c3959ffa22a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location active state toggled"
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/business/locations/check-location-id": {
+            "get": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "Check if location ID is available",
+                "description": "Check whether a given location_id is available (unique) for this business",
+                "operationId": "acb57814b72bf4e8a0c5f0f5cfa430de",
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "query",
+                        "description": "The location ID to check",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "exclude_id",
+                        "in": "query",
+                        "description": "Exclude this location's own ID (for edit scenarios)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Check result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "available": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/business/locations/active": {
+            "get": {
+                "tags": [
+                    "Business - Locations"
+                ],
+                "summary": "List active locations",
+                "description": "Get all active locations for the business (no pagination, suitable for dropdowns)",
+                "operationId": "1184a49877c2e344affd7129fe0ce570",
+                "responses": {
+                    "200": {
+                        "description": "Active locations retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/v1/procurement/brands": {
             "get": {
                 "tags": [
@@ -1023,7 +2001,6 @@
                                 "required": [
                                     "name",
                                     "type",
-                                    "sku",
                                     "unit_id"
                                 ],
                                 "properties": {
@@ -1032,8 +2009,18 @@
                                         "example": "Widget Pro"
                                     },
                                     "sku": {
+                                        "description": "Leave blank to auto-generate (e.g. P0001)",
                                         "type": "string",
-                                        "example": "WGT-001"
+                                        "example": "WGT-001",
+                                        "nullable": true
+                                    },
+                                    "sku_type": {
+                                        "description": "Sub-SKU strategy for variable products (default: with_out_variation)",
+                                        "type": "string",
+                                        "enum": [
+                                            "with_variation",
+                                            "with_out_variation"
+                                        ]
                                     },
                                     "type": {
                                         "type": "string",
@@ -1142,13 +2129,38 @@
                                         "type": "string",
                                         "nullable": true
                                     },
+                                    "product_racks": {
+                                        "description": "Warehouse rack positions per location",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "location_id": {
+                                                    "type": "integer"
+                                                },
+                                                "rack": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "row": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "position": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "variations": {
                                         "description": "For single/modifier products",
                                         "type": "array",
                                         "items": {
                                             "properties": {
                                                 "sub_sku": {
-                                                    "type": "string"
+                                                    "type": "string",
+                                                    "nullable": true
                                                 },
                                                 "default_purchase_price": {
                                                     "type": "number"
@@ -1193,13 +2205,26 @@
                                                                 "nullable": true
                                                             },
                                                             "sub_sku": {
-                                                                "type": "string"
+                                                                "type": "string",
+                                                                "nullable": true
                                                             },
                                                             "default_purchase_price": {
                                                                 "type": "number"
                                                             },
+                                                            "dpp_inc_tax": {
+                                                                "type": "number"
+                                                            },
+                                                            "profit_percent": {
+                                                                "type": "number"
+                                                            },
+                                                            "default_sell_price": {
+                                                                "type": "number"
+                                                            },
                                                             "sell_price_inc_tax": {
                                                                 "type": "number"
+                                                            },
+                                                            "is_hidden": {
+                                                                "type": "boolean"
                                                             }
                                                         },
                                                         "type": "object"
@@ -1208,6 +2233,42 @@
                                             },
                                             "type": "object"
                                         }
+                                    },
+                                    "combo_variations": {
+                                        "description": "For combo products — the component variations",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "variation_id": {
+                                                    "type": "integer"
+                                                },
+                                                "quantity": {
+                                                    "type": "number"
+                                                },
+                                                "unit_id": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "item_level_purchase_price_total": {
+                                        "description": "Combo purchase price (sum of components)",
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "purchase_price_inc_tax": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "selling_price": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "selling_price_inc_tax": {
+                                        "type": "number",
+                                        "nullable": true
                                     }
                                 },
                                 "type": "object"
@@ -3940,6 +5001,14 @@
         {
             "name": "Authentication",
             "description": "API endpoints for user authentication"
+        },
+        {
+            "name": "Business - Settings",
+            "description": "Business profile and settings management"
+        },
+        {
+            "name": "Business - Locations",
+            "description": "Business location (branch/outlet) management"
         },
         {
             "name": "Procurement - Brands",

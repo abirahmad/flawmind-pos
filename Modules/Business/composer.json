@@ -1,0 +1,16 @@
+{
+    "name": "nwidart/business",
+    "description": "Business settings and locations management module",
+    "authors": [],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Business\\": "app/"
+        }
+    }
+}

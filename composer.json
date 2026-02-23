@@ -38,7 +38,10 @@
             "Modules\\Sales\\Database\\Factories\\": "Modules/Sales/database/factories/",
             "Modules\\Procurement\\": "Modules/Procurement/app/",
             "Modules\\Procurement\\Database\\Seeders\\": "Modules/Procurement/database/seeders/",
-            "Modules\\Procurement\\Database\\Factories\\": "Modules/Procurement/database/factories/"
+            "Modules\\Procurement\\Database\\Factories\\": "Modules/Procurement/database/factories/",
+            "Modules\\Business\\": "Modules/Business/app/",
+            "Modules\\Business\\Database\\Seeders\\": "Modules/Business/database/seeders/",
+            "Modules\\Business\\Database\\Factories\\": "Modules/Business/database/factories/"
         }
     },
     "autoload-dev": {
